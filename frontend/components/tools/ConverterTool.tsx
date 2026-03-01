@@ -10,7 +10,15 @@ export default function ConverterPage() {
     const [format, setFormat] = useState("webp");
     const [loading, setLoading] = useState(false);
 
+    const [originalSize, setOriginalSize] = useState<number | null>(null);
+    const [convertedSize, setConvertedSize] = useState<number | null>(null);
 
+    const formatBytes = (bytes: number) => {
+        if (bytes < 1024) return bytes + " B";
+        if (bytes < 1024 * 1024)
+            return (bytes / 1024).toFixed(1) + " KB";
+        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    };
     const allowedTypes = [
         "image/png",
         "image/jpeg",
@@ -21,15 +29,16 @@ export default function ConverterPage() {
     const handleFileChange = (newFiles: File[]) => {
         if (!newFiles.length) return;
 
-        const file = newFiles[0];
+        const selected = newFiles[0];
 
-        if (!allowedTypes.includes(file.type)) {
+        if (!allowedTypes.includes(selected.type)) {
             alert("Only PNG, JPEG, WEBP and AVIF files are allowed.");
             return;
         }
 
-        setFiles([file]); // replace, don’t append
-        onChange && onChange([file]);
+        setFile(selected);
+        setOriginalSize(selected.size);
+        setConvertedSize(null); // reset previous result
     };
 
     const handleConvert = async () => {
@@ -54,6 +63,7 @@ export default function ConverterPage() {
             }
 
             const blob = await response.blob();
+            setConvertedSize(blob.size);
             const url = window.URL.createObjectURL(blob);
 
             const a = document.createElement("a");
@@ -83,7 +93,6 @@ export default function ConverterPage() {
 
                 {/* Main Tool Container */}
                 <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-2 shadow-2xl">
-                    {/* Aceternity File Upload Component */}
                     <div className="w-full bg-neutral-950 rounded-xl border border-neutral-800 overflow-hidden">
                         <FileUpload onChange={handleFileChange} />
                     </div>
@@ -133,6 +142,37 @@ export default function ConverterPage() {
                                 )}
                             </button>
                         </motion.div>
+                    )}
+                    {originalSize && (
+                        <div className="px-8 pb-6 text-sm text-neutral-400 space-y-1">
+                            <p>
+                                Original Size:{" "}
+                                <span className="text-neutral-200 font-medium">
+        {formatBytes(originalSize)}
+      </span>
+                            </p>
+
+                            {convertedSize && (
+                                <>
+                                    <p>
+                                        Converted Size:{" "}
+                                        <span className="text-neutral-200 font-medium">
+            {formatBytes(convertedSize)}
+          </span>
+                                    </p>
+                                    <p>
+                                        Saved:{" "}
+                                        <span className="text-green-400 font-medium">
+            {(
+                ((originalSize - convertedSize) / originalSize) *
+                100
+            ).toFixed(1)}
+                                            %
+          </span>
+                                    </p>
+                                </>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
