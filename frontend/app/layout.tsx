@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark">
         <body
-            className={`${geist.className} bg-black text-white min-h-screen flex flex-col`}
+            className={`${geist.className} bg-neutral-950 text-neutral-50 min-h-screen flex flex-col`}
         >
         <Navbar />
         <main className="flex-1 max-w-6xl mx-auto px-6 py-12 w-full">

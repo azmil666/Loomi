@@ -5,7 +5,7 @@ import { FileUpload } from "@/components/ui/file-upload"; // Ensure this path ma
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-export default function Home() {
+export default function ConverterPage() {
     const [file, setFile] = useState<File | null>(null);
     const [format, setFormat] = useState("webp");
     const [loading, setLoading] = useState(false);
@@ -73,9 +73,6 @@ export default function Home() {
             <div className="mx-auto w-full max-w-3xl">
                 {/* Loomi Branding Header */}
                 <header className="mb-12">
-                    <span className="mb-2 block text-xs font-bold uppercase tracking-[0.3em] text-neutral-500">
-                        LOOMI
-                    </span>
                     <h1 className="text-4xl font-bold tracking-tighter text-white">
                         Image Converter
                     </h1>
