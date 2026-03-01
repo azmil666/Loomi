@@ -1,4 +1,15 @@
-# Loomi
+<p align="center">
+  <img src="docs/assets/loomi-git.webp" alt="Loomi Logo" width="420"/>
+</p>
+
+---
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-App_Router-black?style=for-the-badge&logo=nextdotjs" />
+  <img src="https://img.shields.io/badge/TypeScript-Strict-blue?style=for-the-badge&logo=typescript" />
+  <img src="https://img.shields.io/badge/Express-API-black?style=for-the-badge&logo=express" />
+  <img src="https://img.shields.io/badge/Sharp-Image_Engine-111111?style=for-the-badge" />
+</p>
+---
 
 **Loomi** is a modern, dark-themed image toolkit built with a scalable full-stack architecture.
 
