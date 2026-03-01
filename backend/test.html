@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Test Image Converter</h2>
+
+<input type="file" id="imageInput" />
+<select id="format">
+    <option value="webp">WebP</option>
+    <option value="png">PNG</option>
+    <option value="jpeg">JPEG</option>
+    <option value="avif">AVIF</option>
+</select>
+
+<button onclick="convertImage()">Convert</button>
+
+<script>
+    async function convertImage() {
+        const fileInput = document.getElementById("imageInput");
+        const format = document.getElementById("format").value;
+
+        const formData = new FormData();
+        formData.append("image", fileInput.files[0]);
+        formData.append("format", format);
+
+        const response = await fetch("http://localhost:5000/convert", {
+            method: "POST",
+            body: formData,
+        });
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "converted." + format;
+        a.click();
+    }
+</script>
+</body>
+</html>
