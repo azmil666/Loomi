@@ -33,20 +33,10 @@ export default function RootLayout({
                     background: '#000000',
                     border: '1px solid #262626',
                 },
-                // This ensures the description (subtext) also inherits the status color
-                success: {
-                    style: {
-                        color: '#4ade80',
-                        borderColor: 'rgba(22, 101, 52, 0.5)',
-                    },
-                    descriptionClassName: "text-green-400/80",
-                },
-                error: {
-                    style: {
-                        color: '#f87171',
-                        borderColor: 'rgba(153, 27, 27, 0.5)',
-                    },
-                    descriptionClassName: "text-red-400/80",
+                classNames: {
+                    success: "text-green-400 border-green-800",
+                    error: "text-red-400 border-red-800",
+                    description: "opacity-80",
                 },
             }}
         />
