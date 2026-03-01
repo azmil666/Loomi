@@ -4,12 +4,12 @@ import { useState } from "react";
 import { FileUpload } from "@/components/ui/file-upload"; // Ensure this path matches your project
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 export default function ConverterPage() {
     const [file, setFile] = useState<File | null>(null);
     const [format, setFormat] = useState("webp");
     const [loading, setLoading] = useState(false);
-
     const [originalSize, setOriginalSize] = useState<number | null>(null);
     const [convertedSize, setConvertedSize] = useState<number | null>(null);
 
@@ -19,6 +19,7 @@ export default function ConverterPage() {
             return (bytes / 1024).toFixed(1) + " KB";
         return (bytes / (1024 * 1024)).toFixed(2) + " MB";
     };
+
     const allowedTypes = [
         "image/png",
         "image/jpeg",
@@ -37,7 +38,9 @@ export default function ConverterPage() {
         const selected = newFiles[0];
 
         if (!allowedTypes.includes(selected.type)) {
-            alert("Only PNG, JPEG, WEBP and AVIF files are allowed.");
+            toast.error("Invalid file type", {
+                description: "Only PNG, JPEG, WEBP and AVIF files are allowed."
+            });
             return;
         }
 
@@ -62,7 +65,9 @@ export default function ConverterPage() {
             });
 
             if (!response.ok) {
-                alert("Conversion failed");
+                toast.error("Conversion failed", {
+                    description: "Please try again."
+                });
                 setLoading(false);
                 return;
             }
@@ -75,9 +80,14 @@ export default function ConverterPage() {
             a.href = url;
             a.download = `loomi-converted.${format}`;
             a.click();
+
+            toast.success("Conversion successful!");
+
         } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred during conversion.");
+            console.warn("Conversion request failed.");
+            toast.error("Server is unavailable", {
+                description: "Please check if service is running."
+            });
         } finally {
             setLoading(false);
         }
@@ -98,6 +108,7 @@ export default function ConverterPage() {
 
                 {/* Main Tool Container */}
                 <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-2 shadow-2xl">
+
                     <div className="w-full bg-neutral-950 rounded-xl border border-neutral-800 overflow-hidden">
                         <FileUpload onChange={handleFileChange} />
                     </div>
@@ -153,8 +164,8 @@ export default function ConverterPage() {
                             <p>
                                 Original Size:{" "}
                                 <span className="text-neutral-200 font-medium">
-        {formatBytes(originalSize)}
-      </span>
+                                    {formatBytes(originalSize)}
+                                </span>
                             </p>
 
                             {convertedSize && (
@@ -162,18 +173,18 @@ export default function ConverterPage() {
                                     <p>
                                         Converted Size:{" "}
                                         <span className="text-neutral-200 font-medium">
-            {formatBytes(convertedSize)}
-          </span>
+                                            {formatBytes(convertedSize)}
+                                        </span>
                                     </p>
                                     <p>
                                         Saved:{" "}
                                         <span className="text-green-400 font-medium">
-            {(
-                ((originalSize - convertedSize) / originalSize) *
-                100
-            ).toFixed(1)}
+                                            {(
+                                                ((originalSize - convertedSize) / originalSize) *
+                                                100
+                                            ).toFixed(1)}
                                             %
-          </span>
+                                        </span>
                                     </p>
                                 </>
                             )}
