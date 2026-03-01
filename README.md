@@ -10,7 +10,7 @@ Currently in active development.
 
 ## ✨ Current Features
 
-* Image format conversion (PNG, JPEG, WebP, AVIF)
+* Image format conversion (PNG, JPEG, WebP, AVIF, GIF, TIFF)
 * Drag & drop upload interface
 * Image-only validation (frontend + backend)
 * Original vs converted file size comparison
