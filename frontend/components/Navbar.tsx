@@ -21,7 +21,6 @@ export default function Navbar() {
             pillColor="#ffffff"
             pillTextColor="#111111"
             hoveredPillTextColor="#ffffff"
-            theme="light"
             initialLoadAnimation={false}
         />
     );
