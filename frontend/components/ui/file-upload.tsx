@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
 import  TrashIcon  from "@/components/ui/trash-icon";
@@ -36,8 +36,12 @@ export const FileUpload = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    onChange && onChange(newFiles);
+    if (!newFiles.length) return;
+
+    const selected = newFiles[0];
+
+    setFiles([selected]);
+    onChange && onChange([selected]);
   };
 
   const handleClick = () => {
@@ -67,8 +71,7 @@ export const FileUpload = ({
   return (
     <div className="w-full" {...getRootProps()}>
       <motion.div
-        // onClick={handleClick}
-        whileHover="animate"
+        onClick={handleClick}
         className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg p-10"
       >
         <input
@@ -94,6 +97,12 @@ export const FileUpload = ({
                 files.map((file) => (
                     <motion.div
                         key={`${file.name}-${file.lastModified}`}
+                        whileHover="animate"
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20,
+                        }}
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
@@ -154,16 +163,24 @@ export const FileUpload = ({
               ))}
             {!files.length && (
                 <motion.div
+                    variants={mainVariant}
+                    initial="initial"
+                    whileHover="animate"
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20,
+                    }}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleClick();
                     }}
                     layoutId="file-upload"
-                className={cn(
-                  "relative z-40 mx-auto mt-4 flex h-32 w-full max-w-[8rem] items-center justify-center rounded-md bg-white group-hover/file:shadow-2xl dark:bg-neutral-900",
-                  "shadow-[0px_10px_50px_rgba(0,0,0,0.1)]",
-                )}
-              >
+                    className={cn(
+                        "relative z-40 mx-auto mt-4 flex h-32 w-full max-w-[8rem] items-center justify-center rounded-md bg-white group-hover/file:shadow-2xl dark:bg-neutral-900",
+                        "shadow-[0px_10px_50px_rgba(0,0,0,0.1)]",
+                    )}
+                >
                 {isDragActive ? (
                   <motion.p
                     initial={{ opacity: 0 }}
