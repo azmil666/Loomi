@@ -8,9 +8,12 @@ import { Toaster } from 'sonner';
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Loomi – Modern Image Toolkit",
+    title: "Loomi | High-Performance Image Tools",
     description:
         "Convert, compress and optimize images instantly with Loomi.",
+    icons: {
+        icon: "/loomi-icon.webp",
+    },
 };
 
 export default function RootLayout({
