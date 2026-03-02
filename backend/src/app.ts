@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import convertRoutes from "./routes/convert.routes";
+import compressRoutes from "./routes/compress.routes";
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/convert", convertRoutes);
+app.use("/api/compress", compressRoutes);
 
 export default app;
