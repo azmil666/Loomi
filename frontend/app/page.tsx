@@ -1,8 +1,10 @@
 import Link from "next/link";
+import WakeBackend from "@/components/WakeBackend";
 
 export default function Home() {
     return (
         <main className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden bg-neutral-950 text-white">
+            <WakeBackend />
             {/* Background Glow Effect */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-b from-black-950 to-transparent blur-[120px]" />
