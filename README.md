@@ -112,7 +112,7 @@ http://localhost:3000
 ## 📌 Roadmap
 
 * [x] Image Converter
-* [ ] Image Compressor
+* [x] Image Compressor
 * [ ] Background Remover
 * [ ] Resize Tool
 * [ ] Crop Tool
