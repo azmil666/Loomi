@@ -20,6 +20,8 @@
   .pill-nav-container {
     width: 100%;
     left: 0;
+    transform: none;
+    padding: 0 1rem;
   }
 }
 
