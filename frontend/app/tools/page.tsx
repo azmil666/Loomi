@@ -1,5 +1,4 @@
-import React from "react";
-import { Image as ImageIcon, Minimize2 } from "lucide-react";
+import { Image as ImageIcon, Minimize2, Wand2 } from "lucide-react";
 import GlassIcons from "@/components/GlassIcons";
 
 export default function ToolsPage() {
@@ -16,6 +15,12 @@ export default function ToolsPage() {
             label: "Image Compressor",
             href: "/tools/compressor"
         },
+        {
+        icon: <Wand2 className="w-6 h-6" />,
+        color: "rgba(163, 163, 163, 1)",
+        label: "Background Removal",
+        href: "/tools/background-removal"
+    },
     ];
 
     return (
