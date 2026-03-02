@@ -135,7 +135,7 @@ export default function CompressorTool() {
                                         max="100"
                                         value={quality}
                                         onChange={(e) => setQuality(Number(e.target.value))}
-                                        className="w-full"
+                                        className="w-full accent-gray-50"
                                     />
                                 </div>
                             </div>
