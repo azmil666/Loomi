@@ -1,4 +1,4 @@
-import { Image as ImageIcon, Minimize2, Wand2 } from "lucide-react";
+import {Crop, Image as ImageIcon, Minimize2, Wand2} from "lucide-react";
 import GlassIcons from "@/components/GlassIcons";
 
 export default function ToolsPage() {
@@ -21,6 +21,12 @@ export default function ToolsPage() {
         label: "Background Removal",
         href: "/tools/background-removal"
     },
+        {
+            icon: <Crop className="w-6 h-6" />,
+            color: "rgba(163, 163, 163, 1)",
+            label: "Image Resizer",
+            href: "/tools/resizer"
+        },
     ];
 
     return (
