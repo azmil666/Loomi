@@ -29,10 +29,10 @@ const LightPillar: React.FC<LightPillarProps> = ({
   glowAmount = 0.005,
   pillarWidth = 3.0,
   pillarHeight = 0.4,
-  noiseIntensity = 0.5,
+  noiseIntensity = 0.35,
   mixBlendMode = 'screen',
   pillarRotation = 0,
-  quality = 'high'
+  quality = 'medium'
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -72,11 +72,11 @@ const LightPillar: React.FC<LightPillarProps> = ({
       low: { iterations: 24, waveIterations: 1, pixelRatio: 0.5, precision: 'mediump', stepMultiplier: 1.5 },
       medium: { iterations: 40, waveIterations: 2, pixelRatio: 0.65, precision: 'mediump', stepMultiplier: 1.2 },
       high: {
-        iterations: 80,
-        waveIterations: 4,
-        pixelRatio: Math.min(window.devicePixelRatio, 2),
+        iterations: 64,
+        waveIterations: 3,
+        pixelRatio: Math.min(window.devicePixelRatio, 1.5),
         precision: 'highp',
-        stepMultiplier: 1.0
+        stepMultiplier: 1.08
       }
     };
 
@@ -142,7 +142,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
       uniform float uWaveCos;
       varying vec2 vUv;
 
-      const float STEP_MULT = ${settings.stepMultiplier.toFixed(1)};
+      const float STEP_MULT = ${settings.stepMultiplier.toFixed(1.1)};
       const int MAX_ITER = ${settings.iterations};
       const int WAVE_ITER = ${settings.waveIterations};
 
@@ -261,7 +261,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
     }
 
     let lastTime = performance.now();
-    const targetFPS = effectiveQuality === 'low' ? 30 : 60;
+    const targetFPS = effectiveQuality === 'low' ? 30 : 45;
     const frameTime = 1000 / targetFPS;
 
     const animate = (currentTime: number) => {
@@ -270,7 +270,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
       const deltaTime = currentTime - lastTime;
 
       if (deltaTime >= frameTime) {
-        timeRef.current += 0.016 * rotationSpeed;
+        timeRef.current += 0.012 * rotationSpeed;
         const t = timeRef.current;
         materialRef.current.uniforms.uTime.value = t;
         materialRef.current.uniforms.uRotCos.value = Math.cos(t * 0.3);
@@ -343,6 +343,19 @@ const LightPillar: React.FC<LightPillarProps> = ({
     webGLSupported,
     quality
   ]);
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden && rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      } else if (!document.hidden && !rafRef.current) {
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
 
   if (!webGLSupported) {
     return (
