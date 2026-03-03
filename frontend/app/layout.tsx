@@ -26,7 +26,9 @@ export default function RootLayout({
         <body
             className={`${geist.className} bg-neutral-950 text-neutral-50 min-h-screen flex flex-col`}
         >
+
         <Navbar />
+
         <Toaster
             theme="dark"
             position="bottom-right"
@@ -44,6 +46,7 @@ export default function RootLayout({
             }}
         />
         <main className="flex-1 max-w-6xl mx-auto px-6 py-12 w-full">
+
             {children}
         </main>
         <Footer />

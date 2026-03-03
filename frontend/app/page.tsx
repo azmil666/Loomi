@@ -1,9 +1,29 @@
 import Link from "next/link";
 import WakeBackend from "@/components/WakeBackend";
+import LightPillar from "@/components/ui/LightPillar";
 
 export default function Home() {
     return (
-        <main className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden bg-neutral-950 text-white">
+        <>
+            {/* FULLSCREEN BACKGROUND EFFECT */}
+            <div className="fixed inset-0 -z-10">
+                <LightPillar
+                    topColor="#ababab"
+                    bottomColor="#030203"
+                    intensity={1}
+                    rotationSpeed={0.3}
+                    glowAmount={0.002}
+                    pillarWidth={3}
+                    pillarHeight={0.4}
+                    noiseIntensity={0.5}
+                    pillarRotation={25}
+                    interactive={false}
+                    mixBlendMode="normal"
+                    quality="high"
+                />
+            </div>
+        <main className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden  text-white">
+
             <WakeBackend />
             {/* Background Glow Effect */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
@@ -37,5 +57,6 @@ export default function Home() {
                 Loomi v1.0.0
             </div>
         </main>
+            </>
     );
 }
