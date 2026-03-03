@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { MorphingSquare } from "@/components/ui/morphing-square";
+import  ArrowNarrowLeftIcon  from "@/components/ui/arrow-narrow-left-icon";
+import { useRouter } from "next/navigation";
 const API_URL =
     process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -16,6 +18,7 @@ export default function CompressorTool() {
     const [loading, setLoading] = useState(false);
     const [originalSize, setOriginalSize] = useState<number | null>(null);
     const [compressedSize, setCompressedSize] = useState<number | null>(null);
+    const router = useRouter();
 
     const formatBytes = (bytes: number) => {
         if (bytes < 1024) return bytes + " B";
@@ -93,13 +96,22 @@ export default function CompressorTool() {
             <div className="mx-auto w-full max-w-3xl">
 
                 {/* Header */}
-                <header className="mb-12">
-                    <h1 className="text-4xl font-bold tracking-tighter text-white">
-                        Image Compressor
-                    </h1>
-                    <p className="mt-2 text-neutral-400">
-                        Reduce image file size while preserving visual quality.
-                    </p>
+                <header className="mb-12 flex items-center gap-4">
+                    <button
+                        onClick={() => router.push("/tools")}
+                        className="group flex items-center justify-center w-10 h-10  transition-all duration-200"
+                    >
+                        <ArrowNarrowLeftIcon className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors duration-200" />
+                    </button>
+
+                    <div>
+                        <h1 className="text-4xl font-bold tracking-tighter text-white">
+                            Image Compressor
+                        </h1>
+                        <p className="mt-2 text-neutral-400">
+                            Reduce image file size while preserving visual quality.
+                        </p>
+                    </div>
                 </header>
 
                 <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-2 shadow-2xl">
