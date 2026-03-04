@@ -15,7 +15,7 @@
 
 **Loomi** is a modern, dark-themed image toolkit built with a scalable full-stack architecture.
 
-It is designed as a structured, professional-grade image processing platform — starting with format conversion and expanding into a complete suite of image tools.
+It is designed as a structured, professional-grade image processing platform providing a growing suite of high-performance image tools including conversion, compression, resizing, cropping, metadata removal, and ML-powered background removal.
 
 Currently in active development.
 
@@ -31,14 +31,30 @@ Currently in active development.
 
 ### 🗜 Image Compressor
 - Quality-based compression
-- Savings percentage display
-- Clean processing feedback
+- Compression savings percentage
+- Real-time processing feedback
+
+### ✂️ Image Cropper
+- Crop images to custom dimensions
+- Fast in-memory processing using Sharp
+- Instant download of cropped image
+
+### 📏 Image Resizer
+- Resize images to custom width and height
+- Maintains high-quality output
+- Supports multiple image formats
+
+### 🔒 Metadata Stripper
+- Removes EXIF metadata from images
+- Protects privacy (GPS, camera info, timestamps)
+- Instant metadata-free image download
 
 ### 🎯 Background Removal (ML Powered)
 - AI-based subject extraction
 - Transparent PNG output
 - Python FastAPI microservice
-- Node ↔ ML service integration
+- Node ↔ ML service communication
+
 
 ---
 
@@ -70,28 +86,73 @@ Currently in active development.
 ## 🧱 Project Structure
 
 ```
+
 Loomi/
 ├── backend/
 │   ├── src/
 │   │   ├── routes/
+│   │   │   ├── convert.routes.ts
+│   │   │   ├── compress.routes.ts
+│   │   │   ├── crop.routes.ts
+│   │   │   ├── resize.routes.ts
+│   │   │   ├── stripMetadata.routes.ts
+│   │   │   └── background.routes.ts
+│   │   │
 │   │   ├── controllers/
+│   │   │   ├── convert.controller.ts
+│   │   │   ├── compress.controller.ts
+│   │   │   ├── crop.controller.ts
+│   │   │   ├── resize.controller.ts
+│   │   │   ├── stripMetadata.controller.ts
+│   │   │   └── background.controller.ts
+│   │   │
 │   │   ├── services/
+│   │   │   ├── convert.service.ts
+│   │   │   ├── compress.service.ts
+│   │   │   ├── crop.service.ts
+│   │   │   ├── resize.service.ts
+│   │   │   ├── stripMetadata.service.ts
+│   │   │   └── background.service.ts
+│   │   │
 │   │   ├── middleware/
+│   │   │   └── upload.middleware.ts
+│   │   │
 │   │   ├── app.ts
 │   │   └── server.ts
+│   │
 │   └── package.json
 │
 ├── frontend/
-│    ├── src/
-│    │   ├── app/
-│    │   ├── components/
-│    │   └── lib/
-│    └── package.json
-└──ml-service/
-    │
-    ├──app.py
-    │
-    └──requirements.txt
+│   ├── src/
+│   │   ├── app/
+│   │   │   └── tools/
+│   │   │       ├── converter/
+│   │   │       ├── compressor/
+│   │   │       ├── crop/
+│   │   │       ├── resize/
+│   │   │       ├── strip-metadata/
+│   │   │       └── background-removal/
+│   │   │
+│   │   ├── components/
+│   │   │   ├── tools/
+│   │   │   │   ├── ConverterTool.tsx
+│   │   │   │   ├── CompressorTool.tsx
+│   │   │   │   ├── CropTool.tsx
+│   │   │   │   ├── ResizeTool.tsx
+│   │   │   │   ├── MetadataStripperTool.tsx
+│   │   │   │   └── BackgroundRemovalTool.tsx
+│   │   │   │
+│   │   │   └── ui/
+│   │   │
+│   │   └── lib/
+│   │
+│   └── package.json
+│
+└── ml-service/
+    ├── app.py
+    └── requirements.txt
+    
+    
 ```
 
 The backend follows a scalable layered architecture to allow future expansion (compressor, background remover, metadata tools, etc.).
@@ -187,14 +248,35 @@ If the ML service is not running, background removal will return a 500 error.
 
 ## 📌 Roadmap
 
+Loomi is being developed as a growing collection of high-performance image tools.  
+The goal is to continuously expand the platform with new utilities for developers, creators, and everyday users.
+
+### ✅ Implemented Tools
+
 * [x] Image Converter
 * [x] Image Compressor
-* [x] Background Remover
-* [ ] Resize Tool
-* [ ] Crop Tool
-* [ ] Metadata Stripper
-* [ ] Bulk Processing
-* [ ] Public Deployment
+* [x] Image Cropper
+* [x] Image Resizer
+* [x] Metadata Stripper
+* [x] Background Remover (ML Powered)
+
+### 🔜 Upcoming Tools
+
+* [ ] Bulk Image Processing
+* [ ] Batch Format Conversion
+* [ ] Image Watermarking
+* [ ] Image Format Optimizer
+* [ ] Image Color Adjustments
+* [ ] EXIF Metadata Viewer
+* [ ] Smart Image Upscaling (AI)
+
+### 🚀 Platform Expansion
+
+* [ ] Drag & Drop multi-file processing
+* [ ] Public Loomi deployment
+* [ ] Developer API
+* [ ] CLI interface
+* [ ] Plugin-based tool architecture
 
 ---
 
