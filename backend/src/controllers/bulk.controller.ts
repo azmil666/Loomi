@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { processBulkImages } from "../services/bulk.service"
 
 export const bulkProcess = async (req: Request, res: Response) => {
     try {
@@ -10,15 +11,20 @@ export const bulkProcess = async (req: Request, res: Response) => {
             })
         }
 
-        return res.json({
-            message: "Bulk endpoint working",
-            filesReceived: files.length
-        })
+        const archive = await processBulkImages(files)
+
+        res.setHeader("Content-Type", "application/zip")
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=loomi-bulk-output.zip"
+        )
+
+        archive.pipe(res)
 
     } catch (error) {
         console.error("Bulk processing error:", error)
 
-        return res.status(500).json({
+        res.status(500).json({
             error: "Bulk processing failed"
         })
     }
