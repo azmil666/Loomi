@@ -5,6 +5,7 @@ import compressRoutes from "./routes/compress.routes";
 import backgroundRoutes from "./routes/background.routes";
 import resizeRoutes from "./routes/resize.routes";
 import cropRoutes from "./routes/crop.routes";
+import stripMetadataRoutes from "./routes/stripMetadata.routes";
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.use("/api/compress", compressRoutes);
 app.use("/api/background", backgroundRoutes);
 app.use("/api/resize", resizeRoutes);
 app.use("/api/crop", cropRoutes);
+app.use("/api/strip-metadata", stripMetadataRoutes);
 
 export default app;
