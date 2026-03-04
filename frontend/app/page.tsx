@@ -41,7 +41,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
-                        href="/tools/converter"
+                        href="/tools"
                         className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-white/90 transition-all active:scale-95"
                     >
                         Get Started
