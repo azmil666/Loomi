@@ -1,4 +1,4 @@
-import {Crop, Image as ImageIcon, Maximize2, Minimize2, ShieldOff, Wand2} from "lucide-react";
+import {Crop, Image as ImageIcon, Layers, Maximize2, Minimize2, ShieldOff, Wand2} from "lucide-react";
 import GlassIcons from "@/components/GlassIcons";
 
 export default function ToolsPage() {
@@ -39,6 +39,12 @@ export default function ToolsPage() {
             label: "Metadata Stripper",
             href: "/tools/strip-metadata"
         },
+        {
+            icon: <Layers className="w-6 h-6" />,
+            color: "rgba(163,163,163,1)",
+            label: "Bulk Processor",
+            href: "/tools/bulk"
+        }
     ];
 
     return (
