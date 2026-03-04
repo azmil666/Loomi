@@ -81,6 +81,13 @@ Currently in active development.
 - Background removal model
 - Isolated microservice architecture
 
+### 📦 Bulk Image Processor
+- Process multiple images simultaneously
+- Supports compress, resize, convert, and metadata stripping
+- Multi-file drag & drop upload
+- Dynamic operation controls
+- Downloads processed images as a ZIP archive
+
 ---
 
 ## 🧱 Project Structure
@@ -96,7 +103,8 @@ Loomi/
 │   │   │   ├── crop.routes.ts
 │   │   │   ├── resize.routes.ts
 │   │   │   ├── stripMetadata.routes.ts
-│   │   │   └── background.routes.ts
+│   │   │   ├── background.routes.ts
+│   │   │   └── bulk.routes.ts
 │   │   │
 │   │   ├── controllers/
 │   │   │   ├── convert.controller.ts
@@ -104,7 +112,8 @@ Loomi/
 │   │   │   ├── crop.controller.ts
 │   │   │   ├── resize.controller.ts
 │   │   │   ├── stripMetadata.controller.ts
-│   │   │   └── background.controller.ts
+│   │   │   ├── background.controller.ts
+│   │   │   └── bulk.controller.ts
 │   │   │
 │   │   ├── services/
 │   │   │   ├── convert.service.ts
@@ -112,7 +121,8 @@ Loomi/
 │   │   │   ├── crop.service.ts
 │   │   │   ├── resize.service.ts
 │   │   │   ├── stripMetadata.service.ts
-│   │   │   └── background.service.ts
+│   │   │   ├── background.service.ts
+│   │   │   └── bulk.service.ts
 │   │   │
 │   │   ├── middleware/
 │   │   │   └── upload.middleware.ts
@@ -131,8 +141,9 @@ Loomi/
 │   │   │       ├── crop/
 │   │   │       ├── resize/
 │   │   │       ├── strip-metadata/
-│   │   │       └── background-removal/
-│   │   │
+│   │   │       ├── background-removal/
+│   │   │       └── bulk/
+│   │   │ 
 │   │   ├── components/
 │   │   │   ├── tools/
 │   │   │   │   ├── ConverterTool.tsx
@@ -140,7 +151,8 @@ Loomi/
 │   │   │   │   ├── CropTool.tsx
 │   │   │   │   ├── ResizeTool.tsx
 │   │   │   │   ├── MetadataStripperTool.tsx
-│   │   │   │   └── BackgroundRemovalTool.tsx
+│   │   │   │   ├── BackgroundRemovalTool.tsx
+│   │   │   │   └── BulkTool.tsx
 │   │   │   │
 │   │   │   └── ui/
 │   │   │
@@ -259,10 +271,10 @@ The goal is to continuously expand the platform with new utilities for developer
 * [x] Image Resizer
 * [x] Metadata Stripper
 * [x] Background Remover (ML Powered)
+* [x] Bulk Image Processing
 
 ### 🔜 Upcoming Tools
 
-* [ ] Bulk Image Processing
 * [ ] Batch Format Conversion
 * [ ] Image Watermarking
 * [ ] Image Format Optimizer
@@ -272,7 +284,7 @@ The goal is to continuously expand the platform with new utilities for developer
 
 ### 🚀 Platform Expansion
 
-* [ ] Drag & Drop multi-file processing
+* [x] Drag & Drop multi-file processing
 * [ ] Public Loomi deployment
 * [ ] Developer API
 * [ ] CLI interface
