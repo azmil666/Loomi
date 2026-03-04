@@ -22,6 +22,6 @@ app.use("/api/background", backgroundRoutes);
 app.use("/api/resize", resizeRoutes);
 app.use("/api/crop", cropRoutes);
 app.use("/api/strip-metadata", stripMetadataRoutes);
-app.use("/api/tools", bulkRoutes)
+app.use("/api/tools/bulk", bulkRoutes)
 
 export default app;
