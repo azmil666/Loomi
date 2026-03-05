@@ -19,7 +19,7 @@ export default function Home() {
                     pillarRotation={25}
                     interactive={false}
                     mixBlendMode="normal"
-                    quality="high"
+                    quality="medium"
                 />
             </div>
         <main className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden  text-white">
