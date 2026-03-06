@@ -13,7 +13,7 @@ export const blurBrushController = async (req: Request, res: Response) => {
 
         const output = await blurBrushService(req.file.buffer);
 
-        res.set("Content-Type", "image/*");
+        res.set("Content-Type", "image/png");
         res.send(output);
 
     } catch (error) {
