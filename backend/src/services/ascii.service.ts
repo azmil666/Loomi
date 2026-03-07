@@ -1,31 +1,24 @@
-import sharp from "sharp";
+import axios from "axios";
+import FormData from "form-data";
 
-const ASCII_CHARS = "@%#*+=-:. ";
+export async function generateAsciiWithPython(
+  imageBuffer: Buffer
+): Promise<string> {
 
-export async function imageToAscii(buffer: Buffer, width = 100) {
-    const image = sharp(buffer).grayscale();
+  const formData = new FormData();
 
-    const metadata = await image.metadata();
+  formData.append("file", imageBuffer, {
+    filename: "image.png",
+    contentType: "image/png",
+  });
 
-    const aspectRatio = (metadata.height || 1) / (metadata.width || 1);
-
-    const height = Math.floor(width * aspectRatio * 0.55);
-
-    const { data, info } = await image
-        .resize(width, height)
-        .raw()
-        .toBuffer({ resolveWithObject: true });
-
-    let ascii = "";
-
-    for (let y = 0; y < info.height; y++) {
-        for (let x = 0; x < info.width; x++) {
-            const pixel = data[y * info.width + x];
-            const charIndex = Math.floor((pixel / 255) * (ASCII_CHARS.length - 1));
-            ascii += ASCII_CHARS[charIndex];
-        }
-        ascii += "\n";
+  const response = await axios.post(
+    "http://127.0.0.1:8000/ascii",
+    formData,
+    {
+      headers: formData.getHeaders(),
     }
+  );
 
-    return ascii;
+  return response.data.ascii;
 }

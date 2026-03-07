@@ -3,9 +3,9 @@ from fastapi.responses import Response
 from rembg import remove
 import torch
 import cv2
-import numpy as np
-from PIL import Image
 import io
+from PIL import Image, ImageEnhance
+import numpy as np
 
 app = FastAPI()
 
@@ -16,6 +16,60 @@ midas.eval()
 
 transform = torch.hub.load("intel-isl/MiDaS", "transforms", trust_repo=True).small_transform
 
+gscale = "@%#*+=-:. "
+
+def convert_image_to_ascii(image: Image.Image, cols: int = 80, scale: float = 0.43):
+    # grayscale
+    image = image.convert("L")
+    
+    image = ImageEnhance.Contrast(image).enhance(2.5)
+    image = ImageEnhance.Sharpness(image).enhance(2.0)
+    
+
+    # increase contrast
+    image = ImageEnhance.Contrast(image).enhance(2.0)
+
+    # slight sharpening
+    image = ImageEnhance.Sharpness(image).enhance(1.5)
+
+    W, H = image.size
+
+    w = W / cols
+    h = w / scale
+
+    rows = int(H / h)
+
+    ascii_img = []
+
+    for j in range(rows):
+
+        y1 = int(j * h)
+        y2 = int((j + 1) * h)
+
+        if j == rows - 1:
+            y2 = H
+
+        row_chars = ""
+
+        for i in range(cols):
+
+            x1 = int(i * w)
+            x2 = int((i + 1) * w)
+
+            if i == cols - 1:
+                x2 = W
+
+            tile = image.crop((x1, y1, x2, y2))
+
+            avg = int(np.array(tile).mean())
+
+            char = gscale[int((avg * (len(gscale) - 1)) / 255)]
+
+            row_chars += char
+
+        ascii_img.append(row_chars)
+
+    return "\n".join(ascii_img)
 
 @app.post("/remove-bg")
 async def remove_bg(file: UploadFile = File(...)):
@@ -92,3 +146,13 @@ async def generate_depth(
         content=encoded_img.tobytes(),
         media_type="image/png"
     )
+
+@app.post("/ascii")
+async def image_to_ascii(file: UploadFile = File(...)):
+    input_bytes = await file.read()
+
+    image = Image.open(io.BytesIO(input_bytes)).convert("RGB")
+
+    ascii_art = convert_image_to_ascii(image)
+
+    return {"ascii": ascii_art}

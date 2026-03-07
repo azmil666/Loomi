@@ -134,9 +134,17 @@ export default function AsciiTool() {
                             </button>
 
                             <div className="p-8 overflow-x-auto">
-                <pre className="text-white text-[10px] leading-[10px] whitespace-pre font-mono">
-                  {ascii}
-                </pre>
+               <pre
+                   className="whitespace-pre text-white"
+                   style={{
+                       fontFamily: "monospace",
+                       fontSize: "8px",
+                       lineHeight: "8px",
+                       letterSpacing: "0.5px"
+                       }}
+                   >
+                      {ascii}
+                    </pre>
                             </div>
                         </motion.div>
                     )}
