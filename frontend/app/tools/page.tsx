@@ -1,4 +1,15 @@
-import {Crop, Image as ImageIcon, ImageOff, Layers, Maximize2, Minimize2, ShieldOff, Wand2} from "lucide-react";
+import {
+    Crop,
+    Image as ImageIcon,
+    ImageOff,
+    Layers,
+    Maximize2,
+    Minimize2,
+    ShieldOff,
+    SlidersHorizontal,
+    Type,
+    Wand2
+} from "lucide-react";
 import GlassIcons from "@/components/GlassIcons";
 
 export default function ToolsPage() {
@@ -51,10 +62,16 @@ export default function ToolsPage() {
             label: "Blur Tool",
             href: "/tools/blur"
         },
-        {icon: <ImageOff className="w-6 h-6" />,
+        {icon: <SlidersHorizontal className="w-6 h-6" />,
             color: "rgba(163,163,163,1)",
             label: "Filter Tool",
             href: "/tools/filters"
+        },
+        {
+            icon: <Type className="w-6 h-6" />,
+            color: "rgba(163,163,163,1)",
+            label: "Image → ASCII",
+            href: "/tools/ascii"
         }
     ];
 
