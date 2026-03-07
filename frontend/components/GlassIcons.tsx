@@ -1,6 +1,8 @@
+"use client";
 import React from 'react';
 import './GlassIcons.css';
 import Link from "next/link";
+import { useWebHaptics } from "web-haptics/react";
 
 export interface GlassIconsItem {
   icon: React.ReactElement;
@@ -25,6 +27,7 @@ const gradientMapping: Record<string, string> = {
 };
 
 const GlassIcons: React.FC<GlassIconsProps> = ({ items, className }) => {
+  const { trigger } = useWebHaptics();
   const getBackgroundStyle = (color: string): React.CSSProperties => {
     if (gradientMapping[color]) {
       return { background: gradientMapping[color] };
@@ -39,15 +42,19 @@ const GlassIcons: React.FC<GlassIconsProps> = ({ items, className }) => {
               key={index}
               href={item.href}
               className={`icon-btn ${item.customClass || ''}`}
+              onMouseDown={() => trigger()}
+              onTouchStart={() => trigger()}
           >
-          <span className="icon-btn__back" style={getBackgroundStyle(item.color)}></span>
-          <span className="icon-btn__front">
-            <span className="icon-btn__icon" aria-hidden="true">
-              {item.icon}
-            </span>
-          </span>
-          <span className="icon-btn__label">{item.label}</span>
-        </Link>
+            <span className="icon-btn__back" style={getBackgroundStyle(item.color)}></span>
+
+            <span className="icon-btn__front">
+      <span className="icon-btn__icon" aria-hidden="true">
+        {item.icon}
+      </span>
+    </span>
+
+            <span className="icon-btn__label">{item.label}</span>
+          </Link>
       ))}
     </div>
   );
