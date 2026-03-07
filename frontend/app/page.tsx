@@ -54,7 +54,7 @@ export default function Home() {
 
             {/* Footer-style hint */}
             <div className="absolute bottom-10 text-white/20 text-sm font-mono tracking-widest uppercase">
-                Loomi v1.0.0
+                Loomi v0.0.02
             </div>
         </main>
             </>

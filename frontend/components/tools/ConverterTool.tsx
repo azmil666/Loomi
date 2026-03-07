@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FileUpload } from "@/components/ui/file-upload"; // Ensure this path matches your project
+import { FileUpload } from "@/components/ui/file-upload";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
