@@ -8,6 +8,8 @@ import cropRoutes from "./routes/crop.routes";
 import stripMetadataRoutes from "./routes/stripMetadata.routes";
 import bulkRoutes from "./routes/bulk.routes"
 import blurRoutes from "./routes/blur.routes";
+import asciiRoutes from "./routes/ascii.routes";
+import imageRoutes from "./routes/imageRoutes";
 
 const app = express();
 
@@ -25,5 +27,7 @@ app.use("/api/crop", cropRoutes);
 app.use("/api/strip-metadata", stripMetadataRoutes);
 app.use("/api/bulk", bulkRoutes);
 app.use("/api/blur", blurRoutes);
+app.use("/api/ascii", asciiRoutes);
+app.use("/api/images", imageRoutes);
 
 export default app;

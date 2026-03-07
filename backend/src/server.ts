@@ -1,5 +1,4 @@
 import app from "./app";
-import imageRoutes from "./routes/imageRoutes";
 const PORT = 5000;
 
 app.listen(PORT, () => {
@@ -7,4 +6,3 @@ app.listen(PORT, () => {
 });
 
 
-app.use("/api/images", imageRoutes);
