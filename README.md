@@ -62,6 +62,21 @@ Currently in active development.
 - Dynamic operation controls
 - Downloads processed images as a ZIP archive
 
+### 🔤 Image → ASCII Generator
+- Converts images into ASCII art
+- Python-powered processing via FastAPI ML service
+- Adjustable ASCII density and contrast mapping
+- Copy ASCII output directly to clipboard
+
+### 🌫 Image Blur Tool
+- Apply blur effects to selected regions
+- Simple brush-based interaction
+- Ideal for redacting sensitive information
+
+### 🎨 Image Filter Tool
+- Apply visual filters to images
+- Real-time preview
+- Fast processing using Sharp
 
 
 ---
@@ -88,6 +103,7 @@ Currently in active development.
 - Python
 - Background removal model
 - Isolated microservice architecture
+- ASCII image generation service
 
 ---
 
@@ -105,7 +121,10 @@ Loomi/
 │   │   │   ├── resize.routes.ts
 │   │   │   ├── stripMetadata.routes.ts
 │   │   │   ├── background.routes.ts
-│   │   │   └── bulk.routes.ts
+│   │   │   ├── bulk.routes.ts
+│   │   │   ├── blur.routes.ts
+│   │   │   ├── ascii.routes.ts
+│   │   │   └── filters.routes.ts
 │   │   │
 │   │   ├── controllers/
 │   │   │   ├── convert.controller.ts
@@ -114,7 +133,10 @@ Loomi/
 │   │   │   ├── resize.controller.ts
 │   │   │   ├── stripMetadata.controller.ts
 │   │   │   ├── background.controller.ts
-│   │   │   └── bulk.controller.ts
+│   │   │   ├── bulk.controller.ts
+│   │   │   ├── blur.controller.ts
+│   │   │   ├── ascii.controller.ts
+│   │   │   └── filters.controller.ts
 │   │   │
 │   │   ├── services/
 │   │   │   ├── convert.service.ts
@@ -123,7 +145,10 @@ Loomi/
 │   │   │   ├── resize.service.ts
 │   │   │   ├── stripMetadata.service.ts
 │   │   │   ├── background.service.ts
-│   │   │   └── bulk.service.ts
+│   │   │   ├── bulk.service.ts
+│   │   │   ├── blur.service.ts
+│   │   │   ├── ascii.service.ts
+│   │   │   └── filters.service.ts
 │   │   │
 │   │   ├── middleware/
 │   │   │   └── upload.middleware.ts
@@ -143,7 +168,10 @@ Loomi/
 │   │   │       ├── resize/
 │   │   │       ├── strip-metadata/
 │   │   │       ├── background-removal/
-│   │   │       └── bulk/
+│   │   │       ├── bulk/
+│   │   │       ├── ascii/
+│   │   │       ├── blur/
+│   │   │       └── filters/
 │   │   │ 
 │   │   ├── components/
 │   │   │   ├── tools/
@@ -153,7 +181,10 @@ Loomi/
 │   │   │   │   ├── ResizeTool.tsx
 │   │   │   │   ├── MetadataStripperTool.tsx
 │   │   │   │   ├── BackgroundRemovalTool.tsx
-│   │   │   │   └── BulkTool.tsx
+│   │   │   │   ├── BulkTool.tsx
+│   │   │   │   ├── AsciiTool.tsx
+│   │   │   │   ├── BlurTool.tsx
+│   │   │   │   └── FilterTool.tsx
 │   │   │   │
 │   │   │   └── ui/
 │   │   │
@@ -273,6 +304,9 @@ The goal is to continuously expand the platform with new utilities for developer
 * [x] Metadata Stripper
 * [x] Background Remover (ML Powered)
 * [x] Bulk Image Processing
+* [x] Image → ASCII Generator
+* [x] Image Blur Tool
+* [x] Image Filter Tool
 
 ### 🔜 Upcoming Tools
 
