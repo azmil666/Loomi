@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import "dotenv/config";
 import convertRoutes from "./routes/convert.routes";
 import compressRoutes from "./routes/compress.routes";
 import backgroundRoutes from "./routes/background.routes";
