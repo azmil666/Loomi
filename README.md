@@ -14,6 +14,7 @@
 <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
 </p>
 </p>
+
 ---
 
 **Loomi** is a modern, dark-themed image toolkit built with a scalable full-stack architecture.
