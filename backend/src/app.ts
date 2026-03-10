@@ -12,6 +12,7 @@ import blurRoutes from "./routes/blur.routes";
 import asciiRoutes from "./routes/ascii.routes";
 import imageRoutes from "./routes/imageRoutes";
 import qrRoutes from "./routes/qr.routes";
+import paletteRoutes from "./routes/palette.routes";
 
 const app = express();
 
@@ -32,5 +33,6 @@ app.use("/api/blur", blurRoutes);
 app.use("/api/ascii", asciiRoutes);
 app.use("/api/images", imageRoutes);
 app.use("/api/qr", qrRoutes);
+app.use("/api/palette", paletteRoutes);
 
 export default app;
