@@ -9,6 +9,9 @@
   <img src="https://img.shields.io/badge/Express-API-black?style=for-the-badge&logo=express" />
   <img src="https://img.shields.io/badge/Sharp-Image_Engine-111111?style=for-the-badge" />
   <img src="https://img.shields.io/badge/FastAPI-ML_Service-009688?style=for-the-badge&logo=fastapi" />
+  <img src="https://img.shields.io/badge/Cloudinary-Image_Storage-3448C5?style=for-the-badge&logo=cloudinary" />
+ <img src="https://img.shields.io/badge/Sharp-Image_Processing-111111?style=for-the-badge" />
+<img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
 </p>
 </p>
 ---
@@ -78,6 +81,11 @@ Currently in active development.
 - Real-time preview
 - Fast processing using Sharp
 
+### 🔳 Image → QR Generator
+- Convert uploaded images into shareable QR codes
+- Images are securely stored via Cloudinary
+- QR links allow instant access to the uploaded image
+- Download generated QR codes directly
 
 ---
 
@@ -95,6 +103,7 @@ Currently in active development.
 - TypeScript
 - Sharp (image processing engine)
 - Multer (memory-based file handling)
+- Cloudinary (image storage and public URL hosting)
 - Layered architecture (routes → controllers → services → middleware)
 - Axios (internal ML service communication)
 
@@ -152,6 +161,8 @@ Loomi/
 │   │   │
 │   │   ├── middleware/
 │   │   │   └── upload.middleware.ts
+│   │   ├── lib/
+│   │   │   └── cloudinary.ts
 │   │   │
 │   │   ├── app.ts
 │   │   └── server.ts
@@ -209,7 +220,14 @@ Loomi uses a microservice architecture.
 You must run **three services** in separate terminals.
 
 ---
+## 🔐 Environment Variables
 
+Create a `.env` file inside the backend folder.
+```
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
 ### 1️⃣ ML Service (Background Removal)
 
 ```bash
@@ -307,6 +325,7 @@ The goal is to continuously expand the platform with new utilities for developer
 * [x] Image → ASCII Generator
 * [x] Image Blur Tool
 * [x] Image Filter Tool
+* [x] Image → QR Generator
 
 ### 🔜 Upcoming Tools
 
