@@ -20,6 +20,7 @@
     "express": "^5.2.1",
     "form-data": "^4.0.5",
     "multer": "^2.1.0",
+    "qrcode": "^1.5.4",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "@types/form-data": "^2.2.1",
     "@types/multer": "^2.0.0",
     "@types/node": "^25.3.3",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "ts-node-dev": "^2.0.0",
