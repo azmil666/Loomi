@@ -4,7 +4,7 @@ import {
     ImageOff,
     Layers,
     Maximize2,
-    Minimize2, QrCode,
+    Minimize2, Palette, QrCode,
     ShieldOff,
     SlidersHorizontal,
     Type,
@@ -78,6 +78,12 @@ export default function ToolsPage() {
             color: "rgba(163,163,163,1)",
             label: "Image → QR",
             href: "/tools/image-to-qr"
+        },
+        {
+            icon: <Palette className="w-6 h-6" />,
+            color: "rgba(163,163,163,1)",
+            label: "Palette Generator",
+            href: "/tools/palette"
         }
     ];
 
