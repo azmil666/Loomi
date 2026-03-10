@@ -2,25 +2,25 @@
 
 import { useState } from "react";
 
-const filterPreview: Record<string, string> = {
-  bw: "grayscale(100%)",
-  cool: "hue-rotate(180deg) saturate(1.2)",
-  warm: "sepia(40%) saturate(1.3)",
-  sepia: "sepia(100%)",
-};
+const filters = [
+  { name: "Original", value: "original", css: "none" },
+  { name: "B/W", value: "bw", css: "grayscale(100%)" },
+  { name: "Cool", value: "cool", css: "hue-rotate(180deg) saturate(1.2)" },
+  { name: "Warm", value: "warm", css: "sepia(40%) saturate(1.3)" },
+  { name: "Sepia", value: "sepia", css: "sepia(100%)" },
+];
 
 export default function FiltersPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [filter, setFilter] = useState("bw");
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [loading, setLoading] = useState(false);
 
-  const handleFile = (f: File | null) => {
+  const handleUpload = (f: File | null) => {
     if (!f) return;
-
     setFile(f);
-    setFilter("bw");
     setPreview(URL.createObjectURL(f));
+    setSelectedFilter(filters[0]);
   };
 
   const applyFilter = async () => {
@@ -30,7 +30,7 @@ export default function FiltersPage() {
 
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("filter", filter);
+    formData.append("filter", selectedFilter.value);
 
     const res = await fetch("http://localhost:5000/api/images/filter", {
       method: "POST",
@@ -49,69 +49,79 @@ export default function FiltersPage() {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen px-4 text-white">
+    <main className="flex flex-col items-center justify-center min-h-screen px-4 text-white">
 
-      <div className="w-full max-w-xl p-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-xl">
+      <div className="w-full max-w-2xl bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl shadow-xl">
 
         <h1 className="text-3xl font-bold text-center mb-6">
           Image Filters
         </h1>
 
-        <p className="text-center text-white/60 mb-8">
-          Upload an image, choose a filter, and download the result.
-        </p>
-
-        <div className="flex flex-col items-center gap-5">
-
-          {/* Upload */}
-          <label className="w-full cursor-pointer border border-white/10 rounded-xl p-6 text-center hover:bg-white/5 transition">
+        {/* Upload */}
+        {!preview && (
+          <label className="flex items-center justify-center w-full border border-white/10 rounded-xl p-10 cursor-pointer hover:bg-white/5 transition">
             <input
               type="file"
               className="hidden"
-              onChange={(e) => handleFile(e.target.files?.[0] || null)}
+              onChange={(e) => handleUpload(e.target.files?.[0] || null)}
             />
-            <p className="text-white/70">
-              Click to upload image
-            </p>
+            <span className="text-white/70">Click to upload image</span>
           </label>
+        )}
 
-          {/* Preview */}
-          {preview && (
+        {/* Main Preview */}
+        {preview && (
+          <div className="flex flex-col items-center gap-6">
+
             <img
               src={preview}
-              style={{ filter: filterPreview[filter] }}
-              className="rounded-lg max-h-64 object-contain border border-white/10 transition duration-300"
+              style={{ filter: selectedFilter.css }}
+              className="max-h-96 object-contain rounded-xl border border-white/10 transition duration-300"
             />
-          )}
 
-          {/* Filter selector */}
-          <div className="w-full">
-            <label className="block text-sm text-white/60 mb-2">
-              Choose Filter
-            </label>
+            {/* Sliding Filter Preview Strip */}
+            <div className="w-full overflow-x-auto">
+              <div className="flex gap-4 pb-2">
 
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/20"
+                {filters.map((f) => (
+                  <div
+                    key={f.value}
+                    onClick={() => setSelectedFilter(f)}
+                    className={`flex flex-col items-center cursor-pointer p-2 rounded-lg transition
+                      ${
+                        selectedFilter.value === f.value
+                          ? "bg-white/10 border border-white/20"
+                          : "hover:bg-white/5"
+                      }`}
+                  >
+
+                    <img
+                      src={preview}
+                      style={{ filter: f.css }}
+                      className="w-24 h-24 object-cover rounded-md border border-white/10"
+                    />
+
+                    <span className="text-xs mt-2 text-white/70">
+                      {f.name}
+                    </span>
+
+                  </div>
+                ))}
+
+              </div>
+            </div>
+
+            {/* Apply Button */}
+            <button
+              onClick={applyFilter}
+              disabled={loading}
+              className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-white/90 transition active:scale-95 disabled:opacity-40"
             >
-              <option value="bw">Black & White</option>
-              <option value="cool">Cool</option>
-              <option value="warm">Warm</option>
-              <option value="sepia">Sepia</option>
-            </select>
+              {loading ? "Processing..." : "Apply & Download"}
+            </button>
+
           </div>
-
-          {/* Apply button */}
-          <button
-            onClick={applyFilter}
-            disabled={!file || loading}
-            className="mt-4 w-full py-3 bg-white text-black font-semibold rounded-full hover:bg-white/90 active:scale-95 transition disabled:opacity-40"
-          >
-            {loading ? "Processing..." : "Apply Filter & Download"}
-          </button>
-
-        </div>
+        )}
 
       </div>
 
