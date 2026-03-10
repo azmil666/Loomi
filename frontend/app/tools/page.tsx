@@ -78,6 +78,12 @@ export default function ToolsPage() {
             color: "rgba(163,163,163,1)",
             label: "Image → QR",
             href: "/tools/image-to-qr"
+        },
+        {
+            icon: <QrCode className="w-6 h-6" />,
+            color: "rgba(163,163,163,1)",
+            label: "Pencil Sketch",
+            href: "/tools/sketch"
         }
     ];
 
