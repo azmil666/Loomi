@@ -80,10 +80,19 @@ export default function ToolsPage() {
             href: "/tools/image-to-qr"
         },
         {
+
+            icon: <QrCode className="w-6 h-6" />,
+            color: "rgba(163,163,163,1)",
+            label: "Pencil Sketch",
+            href: "/tools/sketch"
+        },
+      {
+
             icon: <Palette className="w-6 h-6" />,
             color: "rgba(163,163,163,1)",
             label: "Palette Generator",
             href: "/tools/palette"
+
         }
     ];
 
