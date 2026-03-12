@@ -211,7 +211,7 @@ Loomi/
     
 ```
 
-The backend follows a scalable layered architecture to allow future expansion (compressor, background remover, metadata tools, etc.).
+The backend follows a scalable layered architecture to allow future expansion .
 
 ---
 
@@ -304,7 +304,7 @@ Start services in this order:
 2. Backend
 3. Frontend
 
-If the ML service is not running, background removal will return a 500 error.
+If the ML service is not running, background removal & image to ascii will return a 500 error.
 
 
 ---
@@ -327,6 +327,7 @@ The goal is to continuously expand the platform with new utilities for developer
 * [x] Image Blur Tool
 * [x] Image Filter Tool
 * [x] Image → QR Generator
+* [x] Palette Extractor
 
 ### 🔜 Upcoming Tools
 
