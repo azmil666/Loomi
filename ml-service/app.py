@@ -6,8 +6,15 @@ import cv2
 import io
 from PIL import Image, ImageEnhance
 import numpy as np
+from realesrgan import RealESRGANer
+from basicsr.archs.rrdbnet_arch import RRDBNet
+import torchvision.transforms as transforms
 
 app = FastAPI()
+
+# -------------------------
+# MiDaS DEPTH MODEL
+# -------------------------
 
 model_type = "MiDaS_small"
 midas = torch.hub.load("intel-isl/MiDaS", model_type, trust_repo=True)
@@ -16,20 +23,48 @@ midas.eval()
 
 transform = torch.hub.load("intel-isl/MiDaS", "transforms", trust_repo=True).small_transform
 
+
+# -------------------------
+# REAL-ESRGAN UPSCALER
+# -------------------------
+
+device = torch.device("cpu")
+
+model = RRDBNet(
+    num_in_ch=3,
+    num_out_ch=3,
+    num_feat=64,
+    num_block=23,
+    num_grow_ch=32,
+    scale=4
+)
+
+upscale_model = RealESRGANer(
+    scale=4,
+    model_path="https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth",
+    model=model,
+    tile=0,
+    tile_pad=10,
+    pre_pad=0,
+    half=False,
+    device=device
+)
+
+
+# -------------------------
+# ASCII SETTINGS
+# -------------------------
+
 gscale = "@%#*+=-:. "
 
 def convert_image_to_ascii(image: Image.Image, cols: int = 80, scale: float = 0.43):
-    # grayscale
+
     image = image.convert("L")
-    
+
     image = ImageEnhance.Contrast(image).enhance(2.5)
     image = ImageEnhance.Sharpness(image).enhance(2.0)
-    
 
-    # increase contrast
     image = ImageEnhance.Contrast(image).enhance(2.0)
-
-    # slight sharpening
     image = ImageEnhance.Sharpness(image).enhance(1.5)
 
     W, H = image.size
@@ -71,6 +106,11 @@ def convert_image_to_ascii(image: Image.Image, cols: int = 80, scale: float = 0.
 
     return "\n".join(ascii_img)
 
+
+# -------------------------
+# BACKGROUND REMOVAL
+# -------------------------
+
 @app.post("/remove-bg")
 async def remove_bg(file: UploadFile = File(...)):
     input_bytes = await file.read()
@@ -78,11 +118,16 @@ async def remove_bg(file: UploadFile = File(...)):
     return Response(content=output_bytes, media_type="image/png")
 
 
+# -------------------------
+# DEPTH MAP GENERATION
+# -------------------------
+
 @app.post("/depth")
 async def generate_depth(
     file: UploadFile = File(...),
     mode: str = Query("color", description="grayscale | color | overlay")
 ):
+
     input_bytes = await file.read()
 
     image = Image.open(io.BytesIO(input_bytes)).convert("RGB")
@@ -106,13 +151,11 @@ async def generate_depth(
 
     depth = prediction.cpu().numpy()
 
-    
     depth = cv2.normalize(depth, None, 0, 255, cv2.NORM_MINMAX)
     depth = depth.astype(np.uint8)
 
     depth = cv2.equalizeHist(depth)
 
-  
     if mode == "grayscale":
         output = depth
 
@@ -120,26 +163,26 @@ async def generate_depth(
         output = cv2.applyColorMap(depth, cv2.COLORMAP_INFERNO)
 
     elif mode == "overlay":
-        depth_float = depth.astype(np.float32) / 255.0
 
+        depth_float = depth.astype(np.float32) / 255.0
 
         blurred = cv2.GaussianBlur(img, (21, 21), 0)
 
         mask = cv2.normalize(depth_float, None, 0, 1, cv2.NORM_MINMAX)
-
         mask = cv2.GaussianBlur(mask, (11, 11), 0)
 
-        mask_3c = np.stack([mask]*3, axis=-1)
+        mask_3c = np.stack([mask] * 3, axis=-1)
 
         output = img * mask_3c + blurred * (1 - mask_3c)
         output = np.clip(output, 0, 255).astype(np.uint8)
+
     else:
         return Response(
             content=b"Invalid mode. Use grayscale | color | overlay",
             media_type="text/plain",
             status_code=400
         )
-    
+
     _, encoded_img = cv2.imencode(".png", output)
 
     return Response(
@@ -147,8 +190,14 @@ async def generate_depth(
         media_type="image/png"
     )
 
+
+# -------------------------
+# ASCII GENERATOR
+# -------------------------
+
 @app.post("/ascii")
 async def image_to_ascii(file: UploadFile = File(...)):
+
     input_bytes = await file.read()
 
     image = Image.open(io.BytesIO(input_bytes)).convert("RGB")
@@ -156,3 +205,26 @@ async def image_to_ascii(file: UploadFile = File(...)):
     ascii_art = convert_image_to_ascii(image)
 
     return {"ascii": ascii_art}
+
+
+# -------------------------
+# IMAGE UPSCALER (NEW)
+# -------------------------
+
+@app.post("/upscale")
+async def upscale_image(file: UploadFile = File(...)):
+
+    input_bytes = await file.read()
+
+    image = Image.open(io.BytesIO(input_bytes)).convert("RGB")
+
+    img_np = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+
+    output, _ = upscale_model.enhance(img_np, outscale=4)
+
+    _, encoded_img = cv2.imencode(".png", output)
+
+    return Response(
+        content=encoded_img.tobytes(),
+        media_type="image/png"
+    )
